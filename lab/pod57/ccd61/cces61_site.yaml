@@ -1,0 +1,100 @@
+######################################
+## CNF general information
+######################################
+nodeName: cces61
+nodeType: CCES
+instance: 1
+
+vnflcm:
+  clusterName: ccd61
+  namespace: eric-cces
+#  InstantiateVnfRequest:
+#    applicationTimeOut: 3600
+#    skipVerification: "true"
+
+users:
+  day1:
+  - username: admin
+    password: Changeme1st!
+    groups:
+    - nef-admin
+    - apigm-admin
+    - nrfagent-admin
+    - system-admin
+    - system-security-admin
+  - username: read-only
+    password: Changeme1st!
+    groups:
+    - nef-read-only
+    - apigm-read-only
+    - nrfagent-read-only
+
+license:
+  customerId: '800143'
+  swltId: 'YL-CCES-1'
+
+cnom:
+  fqdn: cnom.ericsson.com
+
+# snmp:
+#   agentEngineId: 800000c1044e4546a1c1d1
+#   sourceIdentifier: 10.155.138.49
+ 
+# ddc:
+#   remotePath: ddc/n99-eccd4-cces1
+
+# vtap:
+#   tapagent: true
+#   remotePath: vtap/n99-eccd4-cces1
+
+######################################
+## CNF specific information
+######################################
+cces:
+  iamFqdn: iam.cces61.selipcnccd61.stspc.seli.gic.ericsson.se
+  # iamDomain: cces-oam.n99-eccd4.sero.gic.ericsson.se
+  nef:
+    instanceId: ddd9b5b3-fa57-4cb1-ace7-680914b0cea6
+    host: 10.43.206.225
+    port: 80
+    nbi:
+      trust:
+        host: 10.43.206.225
+    diameter:
+      host: cces61.sapc.ericsson.com
+      peer:
+        host: pcf63.sapc.ericsson.com
+        ip: 10.43.204.49
+        port: 3868
+
+######################################
+## CNF certificates specific
+######################################
+# certs:
+#   iccr-external-tls-certificate:
+#     p12: ../../../certs/n99-eccd4/cces1/cces1-iccr-server.p12
+#   eric-cces-sbi-server-certs-certificate:
+#     p12: ../../../certs/n99-eccd4/cces1/cces1-sbi-server.p12
+#   eric-cces-sbi-client-certs-certificate:
+#     p12: ../../../certs/n99-eccd4/cces1/cces1-sbi-client.p12
+#   eric-cces-nbi-trust-server-certs-certificate:
+#     p12: ../../../certs/n99-eccd4/cces1/cces1-nbi-trust-server.p12
+#   eric-cces-nbi-client-certs-certificate:
+#     p12: ../../../certs/n99-eccd4/cces1/cces1-nbi-trust-client.p12
+#   eric-cces-prov-server-certs-certificate:
+#     p12: ../../../certs/n99-eccd4/cces1/cces1-prov-server.p12
+
+######################################
+## CNF dimensioning specific
+######################################
+
+replicaCount:
+  eric-data-wide-column-database-cd: 3
+  eric-cces-common-entity: 2
+  eric-cces-timer-service: 2
+  eric-apigm-api-proxy: 2
+
+hpaReplica:
+  eric-cces-common-entity: {min: 2, max: 3}
+  eric-cces-timer-service: {min: 2, max: 3}
+  eric-apigm-api-proxy: {min: 2, max: 3}

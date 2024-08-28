@@ -1,0 +1,204 @@
+nodeName: amf300-smf21
+nodeType: PCC
+instance: 1
+vnflcm:
+  clusterName: ccd80
+  namespace: amf300-smf21
+#  InstantiateVnfRequest:
+#    applicationTimeOut: 1800
+#    skipVerification: "true"
+users:
+  day1:
+  - username: admin
+    password: abcd
+    groups: [ ericsson-support sm-operator sm-admin sm-tracing-admin sm-uetrace-admin sm-lawful-intercept-admin epg-tracing-admin system-trace-admin system-troubleshooter system-admin system-read-only system-security-admin mm-admin application-administrator mm-security-admin mm-tshooter mm-troubleshooter mm-config-admin mm-expert-admin mm-gsnuser ]
+  - username: sysadm
+    password: abcd
+    groups: [ mm-admin ]
+  - username: sys_troubleshooter
+    password: abcd
+    groups: [ mm-troubleshooter mm-tshooter ]
+  - username: om_admin
+    password: [ mm-security-admin ]
+ 
+license:
+  customerId: '800143'
+  swltId: YL-PCC-1
+snmp:
+  # agentEngineId: 800000c104414d46a1c1d2
+  heartbeatInterval: 600
+ddc:
+  remotePath: /pcn_pcc_pcg_ddc
+replicaCount:
+  eric-pc-mm-forwarder: 2  # mandatory, as PC-MM networking configurations reply on this number.
+  eric-pc-mm-mobility: 2
+  eric-pc-mm-sctp: 2
+  eric-pc-vpn-gateway-forwarder: 1
+
+pcc:
+  ipRule:
+    defaultGws: [1]
+    bfdPeers: [2,3]
+    fwdIpFrom: 21
+    bgpNeighbors: [2,3]
+    creIpFrom: 21
+    vpngwIpFrom: 31
+  pcmm:
+    nodeId: seropcnsgsnmme300
+    mmeGroupId: 33437
+    mmeCode: 1
+    amfRegionId: 130
+    amfSetId: 624
+    amfPointer: 1
+    amfCapacity: 64
+    amfInstanceId: 3fb31bb6-99ee-4a34-b714-414d46a1c1d2
+    # namfLbIp: 172.17.136.1
+    # new hss var in pcmm
+    hss:
+      - ip: 10.88.134.30
+    ipNetwork: # Only support IPv4
+    - name: OM_CN
+      ipInt:
+        vlan: 224
+        ipv4: 172.20.168.0/24
+      ipSvc:
+      - name: OAM
+        ipv4: 10.155.138.7
+    - name: PRAN_SCTP_1
+      ipInt:
+        vlan: 226
+        ipv4: 55.144.77.0/26
+      ipSvc:
+      - name: N2-1
+        ipv4: 10.88.140.54
+      - name: S1-MME-1
+        ipv4: 10.88.140.54
+    - name: PRAN_SCTP_2
+      ipInt:
+        vlan: 227
+        ipv4: 55.144.77.64/26
+      ipSvc:
+      - name: N2-2
+        ipv4: 10.88.140.86
+      - name: S1-MME-2
+        ipv4: 10.88.241.14
+    - name: SIG_SCTP_1
+      ipInt:
+        vlan: 228
+        ipv4: 55.144.77.128/26
+      ipSvc:
+      - name: S6a-1
+        ipv4: 55.144.77.128/26
+      - name: SBI-Server
+        ipv4: 10.45.136.145
+      - name: SBI-Client
+        ipv4: 10.45.136.146
+      - name: S6a-2
+        ipv4: 10.88.239.14
+    - name: SIG_SCTP_2
+      ipInt:
+        vlan: 229
+        ipv4: 55.144.77.192/26
+    - name: MEDIA_1
+      ipInt:
+        vlan: 222
+        ipv4: 55.144.76.0/26
+      ipSvc:
+      - name: Gn-GTP-C
+        ipv4: 10.45.136.178
+      - name: S10-GTP-C
+        ipv4: 10.45.136.210
+      - name: S11-GTP-C
+        ipv4: 10.45.136.210
+      - name: S3-GTP-C
+        ipv4: 10.45.136.178
+      - name: DNS
+        ipv4: 10.45.136.210
+    - name: MEDIA_2
+      ipInt:
+        vlan: 223
+        ipv4: 55.144.76.64/26
+  pcsm:
+    smfInstanceId: d67766fc-210f-4ecf-5cc1-534d46a1c1d2
+    nsmfLbIp: 10.45.143.173
+    nsmfNotifLbIp: 10.45.143.45
+    # smfSbiNotifyHost: pcc1-smf-notification.site2-cluster1
+    smfSbiNsmfHost: smf21.ericsson.com
+    pcrfDiameterAddress: 172.17.128.8 # TODO 1 EHXIUCL: NEED TO BE DECIDED BY PILOT TEAM DISCUSSION
+    sgwu:
+    - pfcpAddress: 10.88.129.228
+      networkInstances:
+        s1s4s11s12-u: pran
+        s5s8-u: media
+    upfPgwu:
+    - pfcpAddress: 10.88.129.228
+      networkInstances:
+        s5s8-u: media
+        n3: pran
+        sx-u: signaling
+    apn:
+      internet:
+        networkInstance: iac
+        ipPool:
+          ipv4: [55.97.6.0/26]
+          ipv6: [fd21:0001:0040::/44,fd21:0001:0050::/44,fd21:0001:0060::/44,fd21:0001:0070::/44]
+      ims:
+        networkInstance: ims_iac
+        ipPool:
+          ipv4: [55.181.0.0/26]
+          ipv6: [fd21:0001:0240::/44,fd21:0001:0250::/44,fd21:0001:0260::/44,fd21:0001:0270::/44]
+    smLogicalInt:
+      pgwS5s8c:
+        ipv4: 10.88.190.32
+        networkInstance: media
+      gomc:
+        ipv4: 172.17.40.3
+        networkInstance: signaling
+      sxb:
+        ipv4: 10.88.148.182
+        networkInstance: signaling
+      s4s11c:
+        ipv4: 10.88.170.132
+        networkInstance: media
+      sgwS5s8c:
+        ipv4: 10.45.148.57
+        networkInstance: media
+      sxa:
+        ipv4: 10.88.134.98
+        networkInstance: signaling
+      gx:
+        ipv4: 172.17.40.6
+        networkInstance: signaling
+  vpngw:
+    # maxNum: 8
+    # loopback:
+      # ipv4: 172.17.40.1
+      # networkInstance: signaling
+    # intraForward:
+      # vlan: 2110
+      # ipv4: 172.21.128.0/24
+    networkInstances:
+    - name: signaling
+      localAs: 4249890638
+      remoteAs: 4249878947
+      ipForward:
+        vlan: 232
+        ipv4: 55.144.78.190
+      vnfLoop:
+        ipv4: 172.17.40.254
+    - name: media
+      localAs: 4201211001
+      remoteAs: 4251200001
+      ipForward:
+        vlan: 2101
+        ipv4: 172.21.8.0/24
+      vnfLoop:
+        ipv4: 172.17.8.254
+    - name: gsa
+      localAs: 4201211001
+      remoteAs: 4251200001
+      ipForward:
+        vlan: 2101
+        ipv4: 172.21.8.0/24
+      vnfLoop:
+        ipv4: 172.17.8.254

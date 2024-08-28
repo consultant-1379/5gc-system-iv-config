@@ -1,0 +1,107 @@
+######################################memory: 600Mi
+## CNF general information
+######################################
+nodeName: ccd16-ccrc
+nodeType: CCRC
+vtap:
+  tapagent: false
+instance: 1
+vnflcm:
+  clusterName: ccd16
+  namespace: eric-ccrc
+  InstantiateVnfRequest:
+    applicationTimeOut: 900
+    skipVerification: "true"
+    commandTimeOut: 900
+    manoControlledScaling: "false"
+    global.ipStackMode: "ipv4"
+
+ericPmServer:
+  rbac:
+      appMonitoring:
+        enabled: true
+        federation:
+          jobOverride: false
+          jobConfiguration: |
+            #- job_name: 'federate-3pp-caas'
+            #  scrape_interval: 15s
+            #  honor_labels: true
+            #  metrics_path: '/federate'
+            #  params:
+            #    'match[]':
+            #      - '{job="kubernetes-nodes",namespace="eric-ccrc"}'
+            #      - '{job="kubernetes-nodes-cadvisor",namespace="eric-ccrc"}'
+            #  static_configs:
+            #    - targets:
+            #      - 'eric-pm-server.monitoring:9090'
+    server:
+      persistentVolume:
+        storageClass: "network-block"
+    nodeSelector: {}
+    resources:
+      eric-pm-server:
+        limits:
+          memory: 15Gi
+        requests:
+          memory: 2048Mi
+  
+users:
+  day1:
+  - username: admin
+    password: Changeme1st!
+    groups:
+    - nrf-admin
+    - nssf-admin
+    - nrfagent-admin
+    - system-admin
+  - username: sec-admin
+    password: Changeme1st!
+    groups:
+    - nrf-security-admin
+    - nssf-security-admin
+    - nrfagent-security-admin
+    - system-security-admin
+
+cnom:
+  fqdn: cnom.ccrc.seropcnccdxxx.sero.gic.ericsson.se
+
+snmp:
+  #agentEngineId: 800000c10400000004
+  heartbeatInterval: 100
+
+license:
+  customerId: "800143"
+  swltId: "YL-CCRC-1"
+  productType: "CCRC"
+
+ccrc:
+  nrf:
+    #instanceId: 0c765084-9cc5-49c6-9876-ae2f5fa2a63f
+    provisioning:
+      fqdn: ""
+  nssf:
+    #instanceId: 13a1de33-ec45-4cd6-a842-ce5bb3cba3d8
+    provisioning:
+      fqdn: nssf-prov.ccrc.seropcnccdxxx.sero.gic.ericsson.se
+    #  amf:
+    #    regionId: 255
+    #    setId: 1
+    #    instanceId:
+    #    - 8b85f3f9-2f66-4698-b07e-06a07010632e
+ddc:
+  remotePath: /pcn_pcc_pcg_ddc
+
+kvdb:
+#- siteId: 1
+
+######################################
+## CNF dimensioning specific
+######################################
+hpaReplica:
+  eric-nrf-discovery: {min: 2, max: 3}
+  eric-nrf-management: {min: 2, max: 6}
+  eric-nrf-management-notification: {min: 2, max: 27}
+  eric-nssf-slice-selection-control: {min: 2, max: 5}
+  eric-nssf-nssai-availability: {min: 2, max: 5}
+  #eric-nssf-notification: {min: 2, max: 3}
+

@@ -1,0 +1,25 @@
+nodeName: ccd83-eda
+nodeType: EDA
+
+vnflcm:
+  clusterName: ccd83
+  namespace: eric-eda
+#  InstantiateVnfRequest:
+#    applicationTimeOut: 1800
+#    skipVerification: "false"
+
+license:
+  customerId: '946060'
+  swltId: STA-EDA-1
+
+eda:
+  domainName: sero.gic.ericsson.se
+  clusterName: eda2.seropcnccd83
+  hssValidatorTag: 2.10.0-1
+
+# snmp:
+  # agentEngineId: 800000c104454441a1c1d1
+
+pvcSize:
+  eric-data-wide-column-database-cd: 200
+instance: 1

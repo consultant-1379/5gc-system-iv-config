@@ -1,0 +1,122 @@
+nodeName: upf34
+nodeType: PCG
+instance: 1
+
+vnflcm:
+  clusterName: ccd80
+  namespace: upf34
+#  InstantiateVnfRequest:
+#    applicationTimeOut: 1200
+#    skipVerification: "true"
+
+users:
+  day1:
+  - username: admin
+    password: abcd
+    groups: [ system-admin system-security-admin system-trace-admin pc-probe-privacy-admin ]
+
+ddc:
+  remotePath: /pcn_pcc_pcg_ddc
+
+license:
+  customerId: '800143'
+  swltId: YL-PCG-1
+snmp:
+  # agentEngineId: 800000c104555046a1c1d1
+  heartbeatInterval: 600
+replicaCount:
+  eric-pc-up-data-plane: 1
+  eric-pc-up-pfcp-endpoint: 1
+  eric-pc-kvdb-rd-server: 1
+
+pcg:
+  # nicVendor: mellanox
+  # dpMaxNum: 30
+  # dpCpu: 14
+  # nicResrName:
+  # - intel.com/dp_sriov_mlx5_left
+  # - intel.com/dp_sriov_mlx5_right
+  ipRule:
+    ipv4:
+      defaultGw: [1]
+      bgpNeighbors: [2,3]
+      creIpFrom: 21
+      dpIpFrom: 31
+    # ipv6:
+    #   defaultGw: [1]
+    #   bgpNeighbors: [2,3]
+    #   creIpFrom: 21
+    #   dpIpFrom: 31
+  # intraForward:
+  #   vlan: 2210
+  #   ipv4: 172.21.128.0/24
+  networkInstances:
+  - name: signaling
+    localAs: 4249891958
+    remoteAs: 4249878947
+    ipForward:
+      vlan: 614
+      ipv4: 55.1.16.49/28
+    vnfLoop:
+      ipv4: 55.4.16.49
+    upLoop:
+    - name: cp
+      ipv4: 10.88.129.228
+      interfaces:
+      - type: cp-function
+        name: if-cp
+      - type: pfcp
+        name: if-cp
+  - name: iac
+    localAs: 4249891999
+    remoteAs: 4249878947
+    ipForward:
+      vlan: 616
+      ipv4: 55.1.16.65/28
+    dpLoop:
+      ipv4: 55.3.16.65/28
+    vnfLoop:
+      ipv4: 55.4.16.65
+    ipPools:
+    - 55.97.6.0/26
+  - name: pran
+    localAs: 4249891928
+    remoteAs: 4249878947
+    ipForward:
+      vlan: 612
+      ipv4: 55.1.16.38/28
+    dpLoop:
+      ipv4: 55.3.16.33/28
+    vnfLoop:
+      ipv4: 55.4.16.33
+    upLoop:
+    - name: access
+      ipv4: 10.88.130.132
+      interfaces:
+      - type: access
+        name: s1n3
+  - name: media
+    localAs: 4249891938
+    remoteAs: 4249878947
+    ipForward:
+      vlan: 610
+      ipv4: 55.1.16.22/28
+    dpLoop:
+      ipv4: 55.3.16.17/28
+    vnfLoop:
+      ipv4: 55.4.16.17
+    upLoop:
+    - name: pgw
+      ipv4: 10.88.132.113
+      interfaces:
+      - type: access
+        name: s5s8u
+        default: false
+    - name: sgw
+      ipv4: 10.86.231.96
+      interfaces:
+      - type: core
+        name: s5s8u
+
+
+
